@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Renting House</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap"
+          rel="stylesheet">
+    <!--          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/Asset/general/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/style.css}">
+    <!-- custom -->
+    <link rel="stylesheet" href="../Asset/general/css/create-form.css">
+</head>
+<body>
+    <!--    Header-->
+    <header>
+        <div class="wrap">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col d-flex align-items-center"></div>
+                    <div class="col d-flex justify-content-end">
+                        <div class="social-media">
+                            <p class="mb-0 d-flex">
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                                <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                        class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+                <div class="container">
+                    <a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                            aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="fa fa-bars"></span> Menu
+                    </button>
+                    <div class="collapse navbar-collapse" id="ftco-nav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
+                            <li class="nav-item" sec:authorize="hasRole('OWNER')"><a th:href="@{/manage-house}" class="nav-link">Quản lý
+                                nhà</a></li>
+                            <li class="nav-item" sec:authorize="hasRole('TENANT')"><a th:href="@{/viewContracts}" class="nav-link">Lịch sử
+                                đăng kí</a></li>
+                            <li class="nav-item" sec:authorize="isAuthenticated()"><a href="#" class="nav-link">Liên
+                                hệ</a></li>
+                            <li class="nav-item active" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Đăng nhập</a>
+                            </li>
+                            <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item"
+                                                                                      data-toggle="dropdown"
+                                                                                      aria-label="Open Profile Menu"><i
+                                    class="fa fa-user fa-lg"></i></a>
+                                <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                                    <li><a class="dropdown-item" th:href="@{/view-user}"><i
+                                            class="fa fa-user fa-lg"></i> Thông tin cá nhân</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/logout}"><i
+                                            class="fa fa-sign-out fa-lg"></i> Đăng xuất</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${message}">
+        <span th:text="${message}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+        <div class="container-fluid px-md-0">
+            <div class="login-form">
+                <form method="post" th:action="@{/login}">
+                    <div class="form-group">
+                        <label for="inputEmail">Email :</label>
+                        <input type="email" class="form-control" id="inputEmail" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword">Mật khẩu :</label>
+                        <input type="password" class="form-control" id="inputPassword" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-info">Đăng nhập</button>
+                    <a th:href="@{/signup}" type="submit" class="btn btn-primary">Đăng kí</a>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

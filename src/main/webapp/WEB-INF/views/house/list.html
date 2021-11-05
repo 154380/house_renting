@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Renting House</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap"
+        rel="stylesheet">
+  <!--          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <link rel="stylesheet" th:href="@{/Asset/general/css/animate.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/owl.carousel.min.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/owl.theme.default.min.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/magnific-popup.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/bootstrap-datepicker.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/jquery.timepicker.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/flaticon.css}">
+  <link rel="stylesheet" th:href="@{/Asset/general/css/style.css}">
+<!--  Custom-->
+  <link rel="stylesheet" href="../Asset/general/css/list-style.css">
+</head>
+<body>
+<!--    Header-->
+<header>
+  <div class="wrap">
+    <div class="container">
+      <div class="row justify-content-between">
+        <div class="col d-flex align-items-center">
+        </div>
+        <div class="col d-flex justify-content-end">
+          <div class="social-media">
+            <p class="mb-0 d-flex">
+              <a href="#" class="d-flex align-items-center justify-content-center"><span
+                      class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+              <a href="#" class="d-flex align-items-center justify-content-center"><span
+                      class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+              <a href="#" class="d-flex align-items-center justify-content-center"><span
+                      class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+              <a href="#" class="d-flex align-items-center justify-content-center"><span
+                      class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+      <div class="container">
+        <a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="fa fa-bars"></span> Menu
+        </button>
+        <div class="collapse navbar-collapse" id="ftco-nav">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
+            <li class="nav-item" sec:authorize="hasRole('OWNER')"><a th:href="@{/manage-house}" class="nav-link">Quản lý
+              nhà</a></li>
+            <li class="nav-item" sec:authorize="hasRole('TENANT')"><a th:href="@{/viewContracts}" class="nav-link">Lịch sử
+              đăng kí</a></li>
+            <li class="nav-item" sec:authorize="isAuthenticated()"><a href="#" class="nav-link">Liên
+              hệ</a></li>
+            <li class="nav-item" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Đăng nhập</a>
+            </li>
+            <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item"
+                                                                      data-toggle="dropdown"
+                                                                      aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+              <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                <li><a class="dropdown-item" th:href="@{/view-user}"><i
+                        class="fa fa-user fa-lg"></i> Thông tin cá nhân</a></li>
+                <li><a class="dropdown-item" th:href="@{/logout}"><i
+                        class="fa fa-sign-out fa-lg"></i> Đăng xuất</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<!--Main Content    -->
+<section class="hero-wrap hero-wrap-2" style="background-image: url('../Asset/general/images/bg_2.jpg');" data-stellar-background-ratio="0.5">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text align-items-center justify-content-center">
+      <div class="col-md-9 ftco-animate text-center">
+        <p class="breadcrumbs mb-2"><span class="mr-2"><a href="/houses">Trang chủ<i class="fa fa-chevron-right"></i></a></span> <span>Nhà<i class="fa fa-chevron-right"></i></span></p>
+        <h1 class="mb-0 bread">Danh Sách Nhà</h1>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <form th:action="@{/houses}" th:method="GET">
+    <div class="searchBar" style="text-align: center;">
+      <input type="text" class="form__control--address searchBar_field" placeholder="Nhập địa điểm"  th:name="address" th:value="${address}">
+      Giá tiền (Triệu) :
+      <input type="text" class="form__control--price searchBar_field" placeholder="Từ"  th:name="price_from" th:value="${price_from}">
+      <input type="text" class="form__control--price searchBar_field" placeholder="Đến"  th:name="price_to" th:value="${price_to}">
+      Loại nhà:
+      <select class="form__control searchBar_field" id="type_house_selection" th:name="type" >
+          <option th:value="${all_type}" th:if="${all_type}==${house_type}" selected>Tất cả</option>
+          <option th:value="${all_type}" th:unless="${all_type}==${house_type}">Tất cả</option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:if="${type_item.type_id}==${house_type}" selected></option>
+          <option th:each="type_item: ${houseTypes}" th:value="${type_item.type_id}" th:text="${type_item.name}" th:unless="${type_item.type_id}==${house_type}"></option>
+      </select>
+      <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </div>
+  </form>
+</section>
+<section class="ftco-section bg-light ftco-no-pt ftco-no-pb">
+  <div class="container-fluid px-md-0">
+    <div class="row no-gutters">
+      <th:block th:each="house, house_property : ${houses}">
+        <div class="col-lg-6">
+          <div class="room-wrap d-md-flex">
+            <a th:href="@{/houses/__${house.house_id}__ }" class="img" th:style="'background-image:url(../src/main/resources/Asset/general/images/' + ${house.sourcePath} + ');'"></a>
+            <div class="half left-arrow d-flex align-items-center">
+              <div class="text p-4 p-xl-5 text-center">
+                <p class="star mb-0"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></p>
+                <p class="mb-0"><span class="price mr-1" th:text="${house.price}"></span> <span class="per"> VNĐ / Đêm</span></p>
+                <h3 class="mb-3" th:text="${house.house_name}"></h3>
+                <ul class="list-accomodation">
+                  <li> <span>Địa chỉ: </span><span th:text="${house.address}"></span> </li>
+                  <li> <span>Loại nhà: </span><span th:text="${house.type.name}"></span> </li>
+                  <li> <span>Số phòng ngủ: </span><span th:text="${house.numBedrooms}"></span> </li>
+                  <li> <span>Số phòng tắm: </span><span th:text="${house.numBathrooms}"></span> </li>
+                </ul>
+                <p class="pt-1"><a th:href="@{/houses/__${house.house_id}__ }" class="btn-custom px-3 py-2">Xem Chi Tiết Nhà <span class="icon-long-arrow-right"></span></a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </th:block>
+    </div>
+  </div>
+  <div class="pagination-field">
+    <div class="pagination">
+      <a id="pagination__prev" onclick="pushOn(-1)" >«</a>
+      <a th:href="@{'/houses?page='+${houses.number - 1}+'&address='+${address}+'&price_from='+${price_from}+'&price_to='+${price_to}+'&type='+${house_type}}" id="page_prev" th:text="${houses.number}" ></a>
+      <a class="paging__active" href="#" id="page_current" th:text="${houses.number}+1"></a>
+      <a th:href="@{'/houses?page='+${houses.number + 1}+'&address='+${address}+'&price_from='+${price_from}+'&price_to='+${price_to}+'&type='+${house_type}}" id="page_next" th:text="${houses.number+2}" ></a>
+      <a id="pagination__next" onclick="pushOn(1)" >»</a>
+      <p id="totalPages"  th:text="${houses.totalPages}"></p>
+    </div>
+  </div>
+</section>
+<!--Banner-->
+<section class="ftco-section testimony-section bg-light">
+  <div class="container">
+    <div class="row justify-content-center pb-5 mb-3">
+      <div class="col-md-7 heading-section text-center ftco-animate">
+        <h2>Phản hồi của khách hàng</h2>
+      </div>
+    </div>
+    <div class="row ftco-animate">
+      <div class="col-md-12">
+        <div class="carousel-testimony owl-carousel">
+          <div class="item">
+            <div class="testimony-wrap d-flex">
+              <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
+              </div>
+              <div class="text pl-4">
+                  	<span class="quote d-flex align-items-center justify-content-center">
+                      <i class="fa fa-quote-left"></i>
+                    </span>
+                <p>Web khá hữu ích trong việc tìm nhà để đi nghỉ ngơi, thư giãn.</p>
+                <p class="name">Nguyễn Mạnh Toàn</p>
+                <span class="position">Developer</span>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="testimony-wrap d-flex">
+              <div class="user-img" style="background-image: url(../Asset/general/images/person_2.jpg)">
+              </div>
+              <div class="text pl-4">
+                  	<span class="quote d-flex align-items-center justify-content-center">
+                      <i class="fa fa-quote-left"></i>
+                    </span>
+                <p>Web có nhiều nhà đẹp, phù hợp với yêu cầu tìm nhà của mình.</p>
+                <p class="name">Nguyễn Trung Hiếu</p>
+                <span class="position">Tester</span>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="testimony-wrap d-flex">
+              <div class="user-img" style="background-image: url(../Asset/general/images/person_3.jpg)">
+              </div>
+              <div class="text pl-4">
+                  	<span class="quote d-flex align-items-center justify-content-center">
+                      <i class="fa fa-quote-left"></i>
+                    </span>
+                <p>Web khá thuận tiện trong việc tìm nhà.</p>
+                <p class="name">Nguyễn Việt Anh</p>
+                <span class="position">Doanh nhân</span>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="testimony-wrap d-flex">
+              <div class="user-img" style="background-image: url(../Asset/general/images/person_4.jpg)">
+              </div>
+              <div class="text pl-4">
+                  	<span class="quote d-flex align-items-center justify-content-center">
+                      <i class="fa fa-quote-left"></i>
+                    </span>
+                <p>Giao diện web khá đẹp và cũng khá hữu ích trong việc tìm nhà.</p>
+                <p class="name">Nguyễn Hoàng Long</p>
+                <span class="position">Giám đốc</span>
+              </div>
+            </div>
+          </div>
+          <div class="item">
+            <div class="testimony-wrap d-flex">
+              <div class="user-img" style="background-image: url(../Asset/general/images/person_1.jpg)">
+              </div>
+              <div class="text pl-4">
+                  	<span class="quote d-flex align-items-center justify-content-center">
+                      <i class="fa fa-quote-left"></i>
+                    </span>
+                <p>Web giúp mình có thể tìm nhà phù hợp với ý muốn rất dễ dàng.</p>
+                <p class="name">Nguyễn Tuấn Tú</p>
+                <span class="position">Bộ đội</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Footer-->
+<footer class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+        <h2 class="footer-heading"><a href="#" class="logo">Vacation Rental</a></h2>
+        <p>Đây là một trang web giúp người thuê có thể dễ dàng đặt lịch thuê nhà và giúp người có nhà cho thuê tìm được khách hàng của mình.</p>
+        <a href="#">Đọc thêm <span class="fa fa-chevron-right" style="font-size: 11px;"></span></a>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+        <h2 class="footer-heading">Dịch vụ</h2>
+        <ul class="list-unstyled">
+          <li><a href="#" class="py-1 d-block">Map Direction</a></li>
+          <li><a href="#" class="py-1 d-block">Accomodation Services</a></li>
+          <li><a href="#" class="py-1 d-block">Great Experience</a></li>
+          <li><a href="#" class="py-1 d-block">Perfect central location</a></li>
+        </ul>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+        <h2 class="footer-heading">Tag cloud</h2>
+        <div class="tagcloud">
+          <a href="#" class="tag-cloud-link">apartment</a>
+          <a href="#" class="tag-cloud-link">home</a>
+          <a href="#" class="tag-cloud-link">vacation</a>
+          <a href="#" class="tag-cloud-link">rental</a>
+          <a href="#" class="tag-cloud-link">rent</a>
+          <a href="#" class="tag-cloud-link">house</a>
+          <a href="#" class="tag-cloud-link">place</a>
+          <a href="#" class="tag-cloud-link">drinks</a>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+        <h2 class="footer-heading">Subcribe</h2>
+        <form action="#" class="subscribe-form">
+          <div class="form-group d-flex">
+            <input type="text" class="form-control rounded-left" placeholder="Nhập email của bạn">
+            <button type="submit" class="form-control submit rounded-right"><span class="sr-only">Submit</span><i class="fa fa-paper-plane"></i></button>
+          </div>
+        </form>
+        <h2 class="footer-heading mt-5">Theo dõi chúng tôi</h2>
+        <ul class="ftco-footer-social p-0">
+          <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+          <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fa fa-facebook"></span></a></li>
+          <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><span class="fa fa-instagram"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="w-100 mt-5 border-top py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-lg-8">
+
+          <p class="copyright mb-0">
+            <!--                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>-->
+          </p>
+        </div>
+        <div class="col-md-6 col-lg-4 text-md-right">
+          <p class="mb-0 list-unstyled">
+            <a class="mr-md-3" href="#">Điều kiện</a>
+            <a class="mr-md-3" href="#">Riêng tư</a>
+            <a class="mr-md-3" href="#">Tuân thủ</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<!--Script-->
+<script th:src="@{/Asset/general/js/jquery.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery-migrate-3.0.1.min.js}"></script>
+<script th:src="@{/Asset/general/js/popper.min.js}"></script>
+<script th:src="@{/Asset/general/js/bootstrap.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.easing.1.3.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{/Asset/general/js/bootstrap-datepicker.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.timepicker.min.js}"></script>
+<script th:src="@{/Asset/general/js/owl.carousel.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/Asset/general/js/scrollax.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script th:src="@{/Asset/general/js/google-map.js}"></script>
+<script th:src="@{/Asset/general/js/main.js}"></script>
+<script src="../Asset/general/js/list.js"></script>
+</body>
+</html>

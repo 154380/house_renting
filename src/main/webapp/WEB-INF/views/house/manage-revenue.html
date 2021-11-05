@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Renting House</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,500,500i,600,600i,700,700i&display=swap"
+          rel="stylesheet">
+    <!--          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <link rel="stylesheet" th:href="@{/Asset/general/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/jquery.timepicker.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/Asset/general/css/style.css}">
+    <!--  Custom-->
+    <link rel="stylesheet" href="../Asset/general/css/manage-house.css"/>
+</head>
+<body>
+<!--    Header-->
+<header>
+    <div class="wrap">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col d-flex align-items-center">
+                </div>
+                <div class="col d-flex justify-content-end">
+                    <div class="social-media">
+                        <p class="mb-0 d-flex">
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-facebook"><i class="sr-only">Facebook</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-twitter"><i class="sr-only">Twitter</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-instagram"><i class="sr-only">Instagram</i></span></a>
+                            <a href="#" class="d-flex align-items-center justify-content-center"><span
+                                    class="fa fa-dribbble"><i class="sr-only">Dribbble</i></span></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/houses}">Vacation<span>Rental</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav"
+                        aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="fa fa-bars"></span> Menu
+                </button>
+                <div class="collapse navbar-collapse" id="ftco-nav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a th:href="@{/houses}" class="nav-link">Trang chủ</a></li>
+                        <li class="nav-item active" sec:authorize="hasRole('OWNER')"><a th:href="@{/manage-house}" class="nav-link">Quản lý
+                            nhà</a></li>
+                        <li class="nav-item" sec:authorize="hasRole('TENANT')"><a th:href="@{/viewContracts}" class="nav-link">Lịch sử
+                            đăng kí</a></li>
+                        <li class="nav-item" sec:authorize="isAuthenticated()"><a href="#" class="nav-link">Liên
+                            hệ</a></li>
+                        <li class="nav-item" sec:authorize="isAnonymous()"><a th:href="@{/login}" class="nav-link">Đăng nhập</a>
+                        </li>
+                        <li class="dropdown" sec:authorize="isAuthenticated()"><a class="app-nav__item"
+                                                                                  data-toggle="dropdown"
+                                                                                  aria-label="Open Profile Menu"><i class="fa fa-user fa-lg"></i></a>
+                            <ul class="dropdown-menu settings-menu dropdown-menu-right">
+                                <li><a class="dropdown-item" th:href="@{/view-user}"><i
+                                        class="fa fa-user fa-lg"></i> Thông tin cá nhân</a></li>
+                                <li><a class="dropdown-item" th:href="@{/logout}"><i
+                                        class="fa fa-sign-out fa-lg"></i> Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+<!--Main Content    -->
+<section th:replace="/house/manage-house :: manage-header"></section>
+<section>
+    <div class="row header">
+        <div class="title_page">
+            <h4><a th:href="@{/manage-revenue(year_value=__${year_value}__-1)}"><i class="fas fa-chevron-left"></i></a>  <span th:text="${year_value}"></span> <a th:href="@{/manage-revenue(year_value=__${year_value}__+1)}"><i class="fas fa-chevron-right"></i></a></h4>
+        </div>
+    </div>
+</section>
+<hr/>
+<section>
+    <div class="row main">
+        <div class="col-xl-2 main__left center">
+            <ul>
+                <a th:href="@{/manage-house}"><li>Danh sách nhà</li></a>
+                <a th:href="@{/create-house}"><li>Thêm mới</li></a>
+                <a th:href="@{/manage-house-renting}"><li>Danh sách đăng ký</li></a>
+                <a th:href="@{/manage-revenue}"><li class="active">Thống kê doanh thu</li></a>
+            </ul>
+        </div>
+        <div class="col-xl-10">
+                <div id="container"
+                     style="width: 550px; height: 400px; margin: 0 auto">
+                </div>
+        </div>
+    </div>
+</section>
+<!--Footer-->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading"><a href="#" class="logo">Vacation Rental</a></h2>
+                <p>Đây là một trang web giúp người thuê có thể dễ dàng đặt lịch thuê nhà và giúp người có nhà cho thuê tìm được khách hàng của mình.</p>
+                <a href="#">Đọc thêm <span class="fa fa-chevron-right" style="font-size: 11px;"></span></a>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading">Dịch vụ</h2>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="py-1 d-block">Map Direction</a></li>
+                    <li><a href="#" class="py-1 d-block">Accomodation Services</a></li>
+                    <li><a href="#" class="py-1 d-block">Great Experience</a></li>
+                    <li><a href="#" class="py-1 d-block">Perfect central location</a></li>
+                </ul>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading">Tag cloud</h2>
+                <div class="tagcloud">
+                    <a href="#" class="tag-cloud-link">apartment</a>
+                    <a href="#" class="tag-cloud-link">home</a>
+                    <a href="#" class="tag-cloud-link">vacation</a>
+                    <a href="#" class="tag-cloud-link">rental</a>
+                    <a href="#" class="tag-cloud-link">rent</a>
+                    <a href="#" class="tag-cloud-link">house</a>
+                    <a href="#" class="tag-cloud-link">place</a>
+                    <a href="#" class="tag-cloud-link">drinks</a>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 mb-md-0 mb-4">
+                <h2 class="footer-heading">Subcribe</h2>
+                <form action="#" class="subscribe-form">
+                    <div class="form-group d-flex">
+                        <input type="text" class="form-control rounded-left" placeholder="Nhập email của bạn">
+                        <button type="submit" class="form-control submit rounded-right"><span class="sr-only">Submit</span><i class="fa fa-paper-plane"></i></button>
+                    </div>
+                </form>
+                <h2 class="footer-heading mt-5">Theo dõi chúng tôi</h2>
+                <ul class="ftco-footer-social p-0">
+                    <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+                    <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Facebook"><span class="fa fa-facebook"></span></a></li>
+                    <li class="ftco-animate"><a href="#" data-toggle="tooltip" data-placement="top" title="Instagram"><span class="fa fa-instagram"></span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="w-100 mt-5 border-top py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-8">
+
+                    <p class="copyright mb-0">
+                        <!--                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib.com</a>-->
+                    </p>
+                </div>
+                <div class="col-md-6 col-lg-4 text-md-right">
+                    <p class="mb-0 list-unstyled">
+                        <a class="mr-md-3" href="#">Điều kiện</a>
+                        <a class="mr-md-3" href="#">Riêng tư</a>
+                        <a class="mr-md-3" href="#">Tuân thủ</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+<!--Script-->
+<script th:src="@{/Asset/general/js/jquery.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery-migrate-3.0.1.min.js}"></script>
+<script th:src="@{/Asset/general/js/popper.min.js}"></script>
+<script th:src="@{/Asset/general/js/bootstrap.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.easing.1.3.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.waypoints.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.stellar.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.animateNumber.min.js}"></script>
+<script th:src="@{/Asset/general/js/bootstrap-datepicker.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.timepicker.min.js}"></script>
+<script th:src="@{/Asset/general/js/owl.carousel.min.js}"></script>
+<script th:src="@{/Asset/general/js/jquery.magnific-popup.min.js}"></script>
+<script th:src="@{/Asset/general/js/scrollax.min.js}"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+<script th:src="@{/Asset/general/js/google-map.js}"></script>
+<script th:src="@{/Asset/general/js/main.js}"></script>
+<script src="../Asset/general/js/history-renting.js"></script>
+<!--Script Chart-->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script th:inline="javascript">
+    $(function(){
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Thống kê doanh thu'
+            },
+            subtitle: {
+                text: 'năm '+[[${year_value}]]
+            },
+            xAxis: {
+                categories: [[${price.keySet()}]],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                max: [[${max_price}]],
+                title: {
+                    text: ''
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} VND</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Doanh thu',
+                data: [[${price.values()}]]
+            }]
+        });
+    });
+</script>
+</body>
+</html>

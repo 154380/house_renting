@@ -18,5 +18,5 @@ create index FK7t9gq6h82u471frhrjgprn3b4
 create index FKpxb43re7sw5e9brclue8pxskr
     on contract (house_id);
 
-INSERT INTO house_renting.contract (id, dateContractSign, endDay, maxPerson, startDay, totalPrice, house_id, tenant_id) VALUES (1, '2021-08-20', '2021-08-10', 3, '2021-08-05', 5000, 1, 3);
-INSERT INTO house_renting.contract (id, dateContractSign, endDay, maxPerson, startDay, totalPrice, house_id, tenant_id) VALUES (2, '2021-08-20', '2021-10-20', 5, '2021-08-10', 71000, 2, 3);
+INSERT INTO house_renting.contract (id, dateContractSign, endDay, maxPerson, startDay, totalPrice, house_id, tenant_id) VALUES (1, '2021-08-20', '2021-08-10', 3, '2021-08-05', 5000, 11, 4);
+INSERT INTO house_renting.contract (id, dateContractSign, endDay, maxPerson, startDay, totalPrice, house_id, tenant_id) VALUES (2, '2021-08-20', '2021-10-20', 5, '2021-08-10', 71000, 13, 4);
